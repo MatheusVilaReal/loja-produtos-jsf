@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<ui:composition 
+template="./index.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="pagina">
+			
+			<h:form id="carrinho">
+
+				<h:panelGrid columns="1" cellpadding="5" style="margin: 0 auto;" rendered="#{empty carrinhoController.listaProdutosEscolhidos}">
+					<i class="pi pi-shopping-cart" 
+					style="padding: 8px; font-size: 5rem; color: lightgray; margin: 0 auto;"></i>
+					<p:outputLabel value="Carrinho vazio" styleClas="carrinho-vazio"></p:outputLabel>
+				</h:panelGrid>
+			
+				<p:growl id="growl" showDetail="true"/>
+			   <p:dataTable id="tabelaProdutosEscolhidos" var="produto" 
+			   			value="#{carrinhoController.listaProdutosEscolhidos}" 
+			   			rendered="#{not empty carrinhoController.listaProdutosEscolhidos}">
+
+			      <p:column headerText="Nome">
+			         <p:outputLabel id="nomeInput" value="#{produto.nome}">
+			         </p:outputLabel>
+			      </p:column>
+			 
+			       <p:column headerText="Preço">
+			         <p:outputLabel id="precoInput" value="#{produto.preco}">
+			         	<f:convertNumber type="currency"/>
+			         </p:outputLabel>
+			       </p:column>
+
+			      <p:column headerText="Quantidade">
+			      		<p:commandButton icon="pi pi-plus" styleClass="rounded-button ui-button-raised"
+				   			update="carrinho" 
+				   			action="#{carrinhoController.adicionarMaisUm(produto, produtoController.buscarPorId(produto))}">
+				   			<f:ajax execute="@form" render="@form"/>
+	               		</p:commandButton>
+			      		<p:outputLabel id="qtdInput" value="#{produto.qtd}" style="padding-right: 8px;">
+				         	<f:convertNumber type="number"/>
+				        </p:outputLabel>
+				         <p:commandButton update="carrinho" action="#{carrinhoController.removerUm(produto)}"  
+	                        icon="pi pi-minus" styleClass="rounded-button ui-button-raised">
+	               		</p:commandButton>
+	               </p:column>
+	               <p:column headerText="Total">
+		               <p:outputLabel id="totalInput" value="#{produto.preco * produto.qtd}">
+				         	<f:convertNumber type="currency"/>
+				         </p:outputLabel>
+	               </p:column>
+				   <p:column>
+	           	   		<p:commandButton update="carrinho" value="Remover tudo"
+	                        action="#{carrinhoController.remover(produto)}"
+	                        styleClass="rounded-button ui-button-raised">
+	               		</p:commandButton>
+	        	   </p:column>
+			</p:dataTable>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>

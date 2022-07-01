@@ -1,0 +1,29 @@
+button.ui-button-raised{
+	
+	background: darkslategrey;
+	padding: 5px;
+	border: none;
+}
+
+button.ui-button-outlined{
+
+	background: darkslategrey;
+}
+
+button:hover{
+
+	background: slategrey;
+}
+
+menu{
+
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.carrinho-vazio{
+
+	text-align: center;
+	color: lightgray;
+}

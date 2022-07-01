@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<ui:composition 
+	template="./admin-index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="pagina">
+			<h:form id="produtos">
+			
+			   <h:panelGrid columns="3" cellpadding="5" style="margin: 0 auto;">
+
+			   		<p:inputText id="input" value="#{produtoController.produto.nome}"/>
+	           		<p:commandButton update="produtos" styleClass="rounded-button ui-button-raised" 
+                		icon="pi pi-search" action="#{produtoController.buscarPorNome}">
+	           		</p:commandButton>
+
+			   
+			   </h:panelGrid>
+	           
+	           <p:growl id="growl" />
+			   <p:dataTable id="tabelaProdutos" var="produto" 
+			   			value="#{produtoController.listaProdutos}" 
+			   			rendered="#{not empty produtoController.listaProdutos}" >
+	
+			      <p:column headerText="Nome">
+			         <p:inputText id="nomeInput" value="#{produto.nome}">
+			         </p:inputText>
+			      </p:column>
+			 
+					<p:column headerText="Quantidade">
+			         <p:inputText id="qtdInput" value="#{produto.qtd}">
+					</p:inputText>
+			       </p:column>
+
+			       <p:column headerText="Preço">
+			       	 <p:outputLabel value="R$ "></p:outputLabel>
+			         <p:inputText id="precoInput" value="#{produto.preco}">
+			         </p:inputText>
+			       </p:column>
+			       
+			       <p:column>
+	           	   		<p:commandButton update="produtos" value="Remover"
+	                        action="#{produtoController.remover(produto)}"
+	                        styleClass="rounded-button ui-button-raised">
+	               		</p:commandButton>
+	        	   		<p:commandButton update="produtos:growl" value="Alterar"
+	        	   			styleClass="rounded-button ui-button-raised" 
+	                        action="#{produtoController.alterar(produto)}">
+	                        <f:ajax execute="@form" render="@form"/>
+	               		</p:commandButton>
+	        	   </p:column>
+			</p:dataTable>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>
